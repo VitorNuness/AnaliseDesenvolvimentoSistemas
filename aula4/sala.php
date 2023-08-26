@@ -55,7 +55,8 @@ function valorTotalComputadores($qntComputadores, $valorComputador)
     return $valorComputador * $qntComputadores;
 }
 
-$alunos = 310;
+$alunoFixo = $_GET['alunos'] ?? 0;
+$alunos = $alunoFixo;
 $colunas = 5;
 $fileiras = 10;
 $valorMesa = 500;
@@ -66,6 +67,8 @@ $computadores = $mesas * 2;
 
 $turmas = array(
     "custoTotal" => 0,
+    "totalComputadores" => 0,
+    "totalMesas" => 0,
     "salas" => 0,
     "turmas" => array(),
 );
@@ -84,17 +87,11 @@ while ($alunos > 0)
     $turma["custo"] = valorTotalMesas($mesas, $valorMesa) + valorTotalComputadores($turma["computadores"], $valorComputador);
     array_push($turmas["turmas"], $turma);
     $turmas["custoTotal"] += $turma["custo"];
+    $turmas["totalComputadores"] += $turma["computadores"];
+    $turmas["totalMesas"] += $turma["mesas"];
 }   
 
-foreach($turmas["turmas"] as $turma => $chaves) {
-    echo "<strong>Turma ".$turma + 1 .":</strong> <br>";
-    foreach ($chaves as $chaves => $valor) {
-        echo "<strong>$chaves</strong>: $valor<br>";
-    }
-    echo "<br>";
-}
-
-var_dump($turmas);
+// var_dump($turmas);
 
 // total de mesas por sala
 // total de computadores por aluno
@@ -102,3 +99,44 @@ var_dump($turmas);
 // custo total
 
 ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sala</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <form action="<?=$_SERVER['PHP_SELF']?>" method="get">
+        <label for="alunos">Digite a quantidade de alunos:</label><br />    
+        <input type="number" name="alunos" id="alunos" value="<?=$alunoFixo?>">
+        <input type="submit" value="Calcular">
+    </form>
+    <h2>Totais</h2>
+    <p><strong>Custo Total</strong> : R$ <?=number_format($turmas["custoTotal"], 2, ',', '.')?></p>
+    <ul>
+        <li><strong>Total Mesas</strong>: <?=$turmas["totalMesas"]?></li>
+        <li><strong>Total Computadores</strong>: <?=$turmas["totalComputadores"]?></li>
+    </ul>
+    <p><strong>Total de Salas</strong> : <?=$turmas["salas"] ?? 0?></p>
+    <?php 
+        foreach($turmas["turmas"] as $turma => $chaves) {
+            echo "<h3>Turma ".$turma + 1 .":</h3>";
+            foreach ($chaves as $chaves => $valor) {
+                if ($chaves == "custo")
+                {
+                    echo "<li><strong>$chaves</strong>: R$". number_format($valor, 2, ',', '.');
+                    echo "</br>";
+                }
+                else {
+                    echo "<li><strong>$chaves</strong>: $valor<br>";
+                }
+            }
+            echo "<br>";
+        }
+    ?>
+</body>
+</html>
