@@ -104,39 +104,150 @@ while ($alunos > 0)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala</title>
+    <title>Orçamento</title>
     <style>
-
+        body {
+            font: normal 24px Arial;
+            color: white;
+            text-align: center;
+            background-color: #087E8B;
+        }
+        h1 {
+            font: bold 32px Arial;
+        }
+        section#principal {
+            color: black;
+            background-color: #ffff;
+            margin: auto;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 800px;
+        }
+        label {
+            color: #087E8B;
+            font: bold 24px Arial;
+        }
+        input#alunos {
+            font: normal 24px Arial;
+            width: 75px;
+            height: 28px;
+            text-align: center;
+            font-weight: 20;
+            margin: 10px;
+            border-radius: 10px;
+            border-width: 1px;
+            border-color: gray;
+            border-style: solid;
+        }
+        input#submit {
+            background-color: #19AE02;
+            font: normal 20px Arial;
+            color: white;
+            border-radius: 10px;
+            width: 200px;
+            height: auto;
+            border-style: none;
+            padding: 5px;
+            cursor: pointer
+            
+        }
+        input#submit:hover {
+            opacity: 0.7;
+        }
+        h2 {
+            color: #087E8B;
+            font: bold 28px Arial;
+        }
+        p span#destaque {
+            font: bold 24px Arial;
+            color: #087E8B;
+        }
+        ul li span#destaque {
+            font: bold 24px Arial;
+        }
+        li {
+            list-style: none;
+        }
+        div#custoTotal {
+            background-color: #EFEFEF;
+            color: #087E8B;
+            padding: auto;
+            max-width: 400px;
+            border-radius: 10px;
+            border-color: #087E8B;
+            border-style: solid;
+            border-width: 1px;
+            margin: auto;
+        }
+        div#totaisItems {
+            color: #087E8B;
+            max-width: 400px;
+            margin: auto;
+            padding: 0;
+        }
+        p#detalhes {
+            color: white;
+        }
+        span#detalhes {
+            font: bold 24px Arial;
+            color: #FFFFFF;
+        }
+        p {
+            color: #087E8B;
+        }
+        div#listaTurmas {
+            background-color: #EFEFEF;
+            color: #087E8B;
+            padding: auto;
+            max-width: 400px;
+            border-radius: 10px;
+            border-color: #087E8B;
+            border-style: solid;
+            border-width: 1px;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
-    <form action="<?=$_SERVER['PHP_SELF']?>" method="get">
-        <label for="alunos">Digite a quantidade de alunos:</label><br />    
-        <input type="number" name="alunos" id="alunos" value="<?=$alunoFixo?>">
-        <input type="submit" value="Calcular">
-    </form>
-    <h2>Totais</h2>
-    <p><strong>Custo Total</strong> : R$ <?=number_format($turmas["custoTotal"], 2, ',', '.')?></p>
-    <ul>
-        <li><strong>Total Mesas</strong>: <?=$turmas["totalMesas"]?></li>
-        <li><strong>Total Computadores</strong>: <?=$turmas["totalComputadores"]?></li>
-    </ul>
-    <p><strong>Total de Salas</strong> : <?=$turmas["salas"] ?? 0?></p>
-    <?php 
-        foreach($turmas["turmas"] as $turma => $chaves) {
-            echo "<h3>Turma ".$turma + 1 .":</h3>";
-            foreach ($chaves as $chaves => $valor) {
-                if ($chaves == "custo")
-                {
-                    echo "<li><strong>$chaves</strong>: R$". number_format($valor, 2, ',', '.');
-                    echo "</br>";
+    <h1>Orçamento</h1>
+    <p id="detalhes">Gere seu orçamento de classe abaixo. Preencha o <span id="destaqueDetalhes">total de alunos</span> da sua instituição.</p>
+    <section id="principal">
+        <form action="<?=$_SERVER['PHP_SELF']?>" method="get">
+            <label for="alunos">Alunos:</label>
+            <input name="alunos" id="alunos" placeholder="0" value="<?=$alunoFixo?>"></br>
+            <input id="submit" type="submit" value="Calcular">
+        </form>
+        <h2>Totais</h2>
+        <div id="custoTotal">
+            <p><span id="destaque">Custo Total</span>: R$ <?=number_format($turmas["custoTotal"], 2, ',', '.')?></p>
+        </div>
+        <div id="totaisItems">
+            <ul>
+                <li><span id="destaque"><span id="item">Total Mesas:</span></span> <span id="valor"><?=$turmas["totalMesas"]?></span></li>
+                <li><span id="destaque"><span id="item">Total Computadores:</span></span> <span id="valor"><?=$turmas["totalComputadores"]?></span></li>
+            </ul>
+        </div>
+        <p><span id="destaque">Total de Salas</span> : <?=$turmas["salas"] ?? 0?></p>
+        <p>Detalhes</p>
+        <div id="listaTurmas">
+            <?php
+                foreach($turmas["turmas"] as $turma => $chaves) {
+                    echo "<h3 id='turmas'>Turma ".$turma + 1 .":</h3>";
+                    foreach ($chaves as $chaves => $valor) {
+                        if ($chaves == "custo")
+                        {
+                            echo "<li id='item'><span id='destaque'>$chaves</span>: R$ ". number_format($valor, 2, ',', '.');
+                            echo "</br>";
+                        }
+                        else {
+                            echo "<li id='item'><span id='destaque'>$chaves</span>: $valor<br>";
+                        }
+                    }
+                    echo "<br>";
                 }
-                else {
-                    echo "<li><strong>$chaves</strong>: $valor<br>";
-                }
-            }
-            echo "<br>";
-        }
-    ?>
+            ?>
+        </div>
+
+    </section>
 </body>
 </html>
