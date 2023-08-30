@@ -57,8 +57,10 @@ function valorTotalComputadores($qntComputadores, $valorComputador)
 
 $alunoFixo = $_GET['alunos'] ?? 0;
 $alunos = $alunoFixo;
-$colunas = 5;
-$fileiras = 10;
+$colunasFixo = $_GET['colunas'] ?? 0;
+$colunas = $colunasFixo;
+$fileirasFixo = $_GET['fileiras'] ?? 0;
+$fileiras = $fileirasFixo;
 $valorMesa = 500;
 $valorComputador = 3000;
 $maxSala = tamanhoSala($colunas, $fileiras);
@@ -127,7 +129,7 @@ while ($alunos > 0)
             color: #087E8B;
             font: bold 24px Arial;
         }
-        input#alunos {
+        input.input {
             font: normal 24px Arial;
             width: 75px;
             height: 28px;
@@ -210,11 +212,15 @@ while ($alunos > 0)
 </head>
 <body>
     <h1>Orçamento</h1>
-    <p id="detalhes">Gere seu orçamento de classe abaixo. Preencha o <span id="destaqueDetalhes">total de alunos</span> da sua instituição.</p>
+    <p id="detalhes">Gere seu orçamento de classe abaixo.<br> Preencha a quantidade de <strong>colunas</strong> e <strong>fileiras</strong> que cada sala irá ocupar,<br> e o <strong>total de alunos</strong> da sua instituição.</p>
     <section id="principal">
         <form action="<?=$_SERVER['PHP_SELF']?>" method="get">
+            <label for="colunas">Colunas:</label>
+            <input name="colunas" id="colunas" class="input" placeholder="0" value="<?=$colunasFixo?>">
+            <label for="fileiras">Fileiras:</label>
+            <input name="fileiras" id="fileiras" class="input" placeholder="0" value="<?=$fileirasFixo?>"></br>
             <label for="alunos">Alunos:</label>
-            <input name="alunos" id="alunos" placeholder="0" value="<?=$alunoFixo?>"></br>
+            <input name="alunos" id="alunos" class="input" placeholder="0" value="<?=$alunoFixo?>"></br>
             <input id="submit" type="submit" value="Calcular">
         </form>
         <h2>Totais</h2>
