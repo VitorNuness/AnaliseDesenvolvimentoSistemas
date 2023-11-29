@@ -83,9 +83,9 @@ class Player
     public function coletarItem(Item $item)
     {
         if ($this->inventario->adicionar($item)) {
-            return "Item coletado";
+            return "Item: {$item->getName()} coletado.";
         }
-        return "Item não coletado.";
+        return "O item não foi coletado.";
     }
 
     /**
@@ -94,14 +94,16 @@ class Player
     public function soltarItem(Item $item)
     {
         if ($this->inventario->remover($item)) {
-            return "Você soltou um item.";
+            return "Você soltou o item: {$item->getName()}.";
         }
-        return "Você não soltou o item";
+        return "Item não encontrado.";
     }
 
     public function subirNivel()
     {
         $this->setNivel($this->nivel += 1);
-        $this->inventario->setCapacidadeMaxima($this->nivel * 3);
+        $novaCapacidade = (int)$this->inventario->getCapacidadeMaxima() + ($this->nivel * 3);
+        $this->inventario->setCapacidadeMaxima($novaCapacidade);
+        return "Você subiu para o nível {$this->nivel}.";
     }
 }

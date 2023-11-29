@@ -70,8 +70,7 @@ class Inventario
     {
         $utilizado = 0;
         foreach ($this->itens as $item) {
-            $tamanho = $item->getTamanho();
-            $utilizado =+ $tamanho;
+            $utilizado += (int)$item->getTamanho();
         }
         return (int)$this->getCapacidadeMaxima() - $utilizado;
     }
